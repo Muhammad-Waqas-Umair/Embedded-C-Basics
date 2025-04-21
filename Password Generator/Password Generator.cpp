@@ -1,32 +1,28 @@
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <string>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <stdint.h>
 
-using namespace std;
-
-string getPassword(int length) {
-    string password = "";
-    string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+void getPassword(uint32_t length, char password[]) {
+    char characters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
     
-    // Seed random number generator
-    srand(time(0));
+    srand(time(0)); 
     
-    for(int i = 0; i < length; i++) {
-        password += characters[rand() % characters.length()];
+    for (uint32_t i = 0; i < length; i++) {
+        password[i] = characters[rand() % (sizeof(characters) - 1)];
     }
-    
-    return password;
+    password[length] = '\0';  
 }
 
 int main() {
-    int length;
+    uint32_t length;
+    char password[100];
     
-    cout << "Enter length of password: ";
-    cin >> length;
+    printf("Enter password length: ");
+    scanf("%u", &length);
     
-    string password = getPassword(length);
-    cout << "Generated Password: " << password << endl;
+    getPassword(length, password);  
+    printf("Generated Password: %s\n", password);
     
     return 0;
 }
